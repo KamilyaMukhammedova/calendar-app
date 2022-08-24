@@ -1,59 +1,100 @@
 import React from 'react';
 import useCalendar from "../../hooks/useCalendar";
+import Modal from "../ui/Modal/Modal";
 import './Calendar.css';
+import NewEventForm from "../ui/NewEventForm/NewEventForm";
+import {useDispatch, useSelector} from "react-redux";
+import {getSelectedDate, showModal} from "../../store/actions/calendarActions";
 
 const Calendar = () => {
+  const dispatch = useDispatch();
+
   const {
     calendarRows, selectedDate, todayFormatted, daysShort,
     monthNames, getNextMonth, getPrevMonth
   } = useCalendar();
 
-  const dateClickHandler = date => {
-    console.log(date);
+  const isShowModal = useSelector(state => state.isShowModal);
+  const selectedDateByUser = useSelector(state => state.date);
+
+
+  // useEffect(() => {
+  //   console.log(selectedDateByUser);
+  // }, []);
+
+  const dayCalendarClickHandler = date => {
+    dispatch(getSelectedDate(date));
+  };
+
+  const openNewEvent = (date) => {
+    dispatch(showModal(true));
+  };
+
+  const closeNewEvent = () => {
+    dispatch(showModal(false));
   };
 
   return (
-    <div className="calendar">
-      <div className="flexBox">
-        <p className="month">{`${monthNames[selectedDate.getMonth()]}-${selectedDate.getFullYear()}`}</p>
-        <div>
-          <button type="button" className="btn prev" onClick={getPrevMonth}>Prev</button>
-          <button type="button" className="btn next" onClick={getNextMonth}>Next</button>
+    <>
+      <Modal show={isShowModal} closed={closeNewEvent}>
+        <NewEventForm/>
+      </Modal>
+      <div className="calendar">
+        <div className="flexBox">
+          <p className="month">{`${monthNames[selectedDate.getMonth()]}-${selectedDate.getFullYear()}`}</p>
+          <div className="flexBoxBtn">
+            <button type="button" className="btn prev" onClick={getPrevMonth}>Prev</button>
+            <button type="button" className="btn next" onClick={getNextMonth}>Next</button>
+          </div>
         </div>
+        <table className="table">
+          <thead>
+          <tr>
+            {daysShort.map(day => (
+              <th key={day}>{day}</th>
+            ))}
+          </tr>
+          </thead>
+          <tbody>
+          {
+            Object.values(calendarRows).map(cols => {
+              return <tr key={cols[0].date}>
+                {cols.map(col => (
+                  col.date === todayFormatted
+                    ? <td
+                      key={col.date}
+                      className={`${col.classes} today`}
+                      onClick={() => dayCalendarClickHandler(col.date)}
+                    >
+                      <button
+                        className="newEventBtn"
+                        onClick={() => openNewEvent(col.date)}
+                      >
+                        <i className="bi bi-plus-square-dotted"></i>
+                      </button>
+                      <span>{col.value}</span>
+                    </td>
+                    : <td
+                      key={col.date}
+                      className={col.classes}
+                      onClick={() => dayCalendarClickHandler(col.date)}
+                    >
+                      <button
+                        className="newEventBtn"
+                        onClick={() => openNewEvent(col.date)}
+                      >
+                        <i className="bi bi-plus-square-dotted"></i>
+                      </button>
+                      <span>{col.value}</span>
+                    </td>
+                ))}
+              </tr>
+            })
+          }
+          </tbody>
+        </table>
       </div>
-      <table className="table">
-        <thead>
-        <tr>
-          {daysShort.map(day => (
-            <th key={day}>{day}</th>
-          ))}
-        </tr>
-        </thead>
-        <tbody>
-        {
-          Object.values(calendarRows).map(cols => {
-            return <tr key={cols[0].date}>
-              {cols.map(col => (
-                col.date === todayFormatted
-                  ? <td
-                    key={col.date} className={`${col.classes} today`}
-                    onClick={() => dateClickHandler(col.date)}
-                  >
-                    {col.value}
-                  </td>
-                  : <td
-                    key={col.date} className={col.classes}
-                    onClick={() => dateClickHandler(col.date)}
-                  >
-                    {col.value}
-                  </td>
-              ))}
-            </tr>
-          })
-        }
-        </tbody>
-      </table>
-    </div>
+    </>
   );
 };
 

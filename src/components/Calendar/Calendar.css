@@ -6,15 +6,15 @@
 }
 
 .table {
-  width: 100%;
-  margin-bottom: 50px;
+  width: 70%;
+  margin: 0 auto 50px;
   border-collapse: collapse;
   font-weight: 500;
 }
 
 td {
   border: 1px solid rgb(240, 240, 240);
-  height: 100px;
+  height: 70px;
   width: 14%;
   vertical-align: baseline;
 }
@@ -48,6 +48,10 @@ th {
   color: #fff;
 }
 
+.today:hover .newEventBtn {
+  color: #ffffff;
+}
+
 .in-prev-month,
 .in-next-month {
   opacity: 0.7;
@@ -60,6 +64,24 @@ th {
   padding-left: 20px;
   font-size: 20px;
   color: rgba(0, 158, 108, 0.8);
+}
+
+.flexBoxBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.newEventBtn {
+  border: transparent;
+  font-size: 16px;
+  background-color: transparent;
+  color: rgba(0, 158, 108, 0.8);
+  display: none;
+}
+
+td:hover .newEventBtn {
+  display: inline-block;
 }
 
 

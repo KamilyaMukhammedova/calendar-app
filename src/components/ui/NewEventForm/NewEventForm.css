@@ -1,0 +1,41 @@
+.formBox {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.title {
+  color: #808080;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.input {
+
+}
+
+.textarea {
+
+}
+
+.textarea {
+  resize: none;
+}
+
+.box {
+  margin-bottom: 20px;
+}
+
+.box input, textarea {
+  border: transparent;
+}
+
+.btnsBox {
+  margin-top: 20px;
+  text-align: right;
+}
+
