@@ -9,6 +9,9 @@ import {getSelectedDate, showModal} from "../../store/actions/calendarActions";
 const Calendar = () => {
   const dispatch = useDispatch();
 
+  const stateEvents = useSelector(state => state.stateEvents);
+
+
   const {
     calendarRows, selectedDate, todayFormatted, daysShort,
     monthNames, getNextMonth, getPrevMonth
@@ -19,7 +22,7 @@ const Calendar = () => {
 
   useEffect(() => {
     dispatch(getSelectedDate(todayFormatted));
-  }, [dispatch, todayFormatted]);
+  }, [dispatch, todayFormatted, stateEvents]);
 
   const dayCalendarClickHandler = date => {
     dispatch(getSelectedDate(date));
