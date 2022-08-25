@@ -4,12 +4,12 @@ import Modal from "../ui/Modal/Modal";
 import './Calendar.css';
 import NewEventForm from "../ui/NewEventForm/NewEventForm";
 import {useDispatch, useSelector} from "react-redux";
-import {getSelectedDate, showModal} from "../../store/actions/calendarActions";
+import {editEvent, getSelectedDate, showModal} from "../../store/actions/calendarActions";
 
 const Calendar = () => {
   const dispatch = useDispatch();
 
-  const stateEvents = useSelector(state => state.stateEvents);
+  // const stateEvents = useSelector(state => state.stateEvents);
 
 
   const {
@@ -19,16 +19,16 @@ const Calendar = () => {
 
   const isShowModal = useSelector(state => state.isShowModal);
 
-
   useEffect(() => {
     dispatch(getSelectedDate(todayFormatted));
-  }, [dispatch, todayFormatted, stateEvents]);
+  }, [dispatch, todayFormatted]);
 
   const dayCalendarClickHandler = date => {
     dispatch(getSelectedDate(date));
   };
 
   const openNewEvent = () => {
+    dispatch(editEvent(false));
     dispatch(showModal(true));
   };
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getItemsFromLocalStorage, showModal} from "../../store/actions/calendarActions";
+import {editEvent, getItemsFromLocalStorage, onEditEventId, showModal} from "../../store/actions/calendarActions";
 import './DayEvents.css';
 
 const DayEvents = () => {
@@ -21,10 +21,11 @@ const DayEvents = () => {
     }
   }, [dateInState, stateEvents]);
 
-  const editEvent = (date, id) => {
-    console.log(date);
-    console.log(id)
+  const openEditForm = (date, id) => {
+    dispatch(editEvent(true));
+    dispatch(onEditEventId(id));
     dispatch(showModal(true));
+
   };
 
   const removeEvent = (date, id) => {
@@ -41,11 +42,9 @@ const DayEvents = () => {
             dayEvents: item.dayEvents.filter(event => event.id !== id)
           }
         }
-
       }
       return item;
     });
-
 
     if (!isObjectRemovedFromLocalStorage) {
       localStorage.setItem("events", JSON.stringify(arrayWithoutRemovedEvent));
@@ -67,7 +66,7 @@ const DayEvents = () => {
               <span>{item.title}: <span>{item.text}</span></span>
               <button
                 type="button"
-                onClick={() => editEvent(selectedDayEvents.date, item.id)}
+                onClick={() => openEditForm(selectedDayEvents.date, item.id)}
               >
                 Edit
               </button>
