@@ -1,5 +1,6 @@
 import Calendar from "./components/Calendar/Calendar";
 import './App.css';
+import DayEvents from "./components/DayEvents/DayEvents";
 
 const App = () => (
   <>
@@ -10,6 +11,7 @@ const App = () => (
     </header>
     <div className="container">
       <Calendar/>
+      <DayEvents/>
     </div>
   </>
 );

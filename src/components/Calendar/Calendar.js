@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import useCalendar from "../../hooks/useCalendar";
 import Modal from "../ui/Modal/Modal";
 import './Calendar.css';
@@ -15,18 +15,17 @@ const Calendar = () => {
   } = useCalendar();
 
   const isShowModal = useSelector(state => state.isShowModal);
-  const selectedDateByUser = useSelector(state => state.date);
 
 
-  // useEffect(() => {
-  //   console.log(selectedDateByUser);
-  // }, []);
+  useEffect(() => {
+    dispatch(getSelectedDate(todayFormatted));
+  }, [dispatch, todayFormatted]);
 
   const dayCalendarClickHandler = date => {
     dispatch(getSelectedDate(date));
   };
 
-  const openNewEvent = (date) => {
+  const openNewEvent = () => {
     dispatch(showModal(true));
   };
 
@@ -66,6 +65,16 @@ const Calendar = () => {
                       className={`${col.classes} today`}
                       onClick={() => dayCalendarClickHandler(col.date)}
                     >
+
+
+                      {
+                        JSON.parse(localStorage.getItem('events'))&&
+                        (JSON.parse(localStorage.getItem('events'))).find(event => event.date === col.date)
+                          ?
+                          <span className="round"/> : null
+                      }
+
+
                       <button
                         className="newEventBtn"
                         onClick={() => openNewEvent(col.date)}
@@ -79,9 +88,14 @@ const Calendar = () => {
                       className={col.classes}
                       onClick={() => dayCalendarClickHandler(col.date)}
                     >
+                      {
+                        JSON.parse(localStorage.getItem('events'))&&
+                        (JSON.parse(localStorage.getItem('events'))).find(event => event.date === col.date) ?
+                          <span className="round"/> : null
+                      }
                       <button
                         className="newEventBtn"
-                        onClick={() => openNewEvent(col.date)}
+                        onClick={() => openNewEvent()}
                       >
                         <i className="bi bi-plus-square-dotted"></i>
                       </button>

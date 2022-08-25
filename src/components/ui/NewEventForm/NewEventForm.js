@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import './NewEventForm.css';
 import {useDispatch, useSelector} from "react-redux";
-import {showModal} from "../../../store/actions/calendarActions";
+import {getItemsFromLocalStorage, showModal} from "../../../store/actions/calendarActions";
+import {nanoid} from "nanoid";
+import './NewEventForm.css';
 
-const NewEventForm = (props) => {
+const NewEventForm = () => {
   const dispatch = useDispatch();
 
   const [newEvent, setNewEvent] = useState({
@@ -21,43 +22,49 @@ const NewEventForm = (props) => {
       ...prev,
       [name]: value,
     }));
-
-    console.log(newEvent);
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    let eventsArray = [];
+    if (newEvent.text !== '' || newEvent.title !== '') {
+      let eventsArray = [];
 
-    if (localStorage.getItem('events')) {
-      eventsArray = JSON.parse(localStorage.getItem('events'));
-    }
+      if (localStorage.getItem('events')) {
+        eventsArray = JSON.parse(localStorage.getItem('events'));
+      }
 
-    if ((eventsArray.find(event => event.date === selectedDateByUser))) {
-      const eventsArrayCopy = eventsArray.map(event => {
-        if (event.date === selectedDateByUser) {
-          return {
-            ...event,
-            dayEvents: [...event.dayEvents, newEvent],
+      if ((eventsArray.find(event => event.date === selectedDateByUser))) {
+        const eventsArrayCopy = eventsArray.map(event => {
+          if (event.date === selectedDateByUser) {
+            return {
+              ...event,
+              dayEvents: [...event.dayEvents, {...newEvent, id: nanoid()}],
+            }
           }
-        }
-        return event;
-      });
-      localStorage.setItem("events", JSON.stringify(eventsArrayCopy));
-    } else {
-      eventsArray.push({
-        date: selectedDateByUser,
-        dayEvents: [newEvent]
-      });
-      localStorage.setItem("events", JSON.stringify(eventsArray));
+          return event;
+        });
+        localStorage.setItem("events", JSON.stringify(eventsArrayCopy));
+        dispatch(getItemsFromLocalStorage(eventsArrayCopy));
+      } else {
+        eventsArray.push({
+          date: selectedDateByUser,
+          dayEvents: [{...newEvent, id: nanoid()}]
+        });
+        localStorage.setItem("events", JSON.stringify(eventsArray));
+        dispatch(getItemsFromLocalStorage(eventsArray));
+      }
     }
+
+    dispatch(showModal(false));
+    setNewEvent({title: '', text: ''});
   };
 
   const closeForm = () => {
     dispatch(showModal(false));
     setNewEvent({title: '', text: ''});
   };
+
 
   return (
     <div className="formBox">
