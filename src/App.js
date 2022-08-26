@@ -1,6 +1,6 @@
 import Calendar from "./components/Calendar/Calendar";
-import './App.css';
 import DayEvents from "./components/DayEvents/DayEvents";
+import './App.css';
 
 const App = () => (
   <>

@@ -16,19 +16,39 @@
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 10px 18px 1px #888888;
+  table-layout: fixed;
 }
 
 td {
   border: 1px solid rgb(240, 240, 240);
-  height: 90px;
-  overflow: scroll;
   width: 14%;
   vertical-align: baseline;
 }
 
 td:hover {
-  /*box-shadow: inset 0px -4px 26px 10px #EBF6F5;*/
   cursor: pointer;
+  background-color: rgba(92,189,185,0.7);
+  color: #ffffff;
+}
+
+.dayBox {
+  height: 88px;
+}
+
+.events {
+  height: 60px;
+  overflow-y: scroll;
+  text-align: left;
+  margin-top: 5px;
+  padding-left: 3px;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #BEBEBE;
 }
 
 td, th {
@@ -45,7 +65,6 @@ th {
   color: white;
   padding: 10px 15px;
   text-align: center;
-  text-decoration: none;
   display: inline-block;
   font-size: 15px;
   border-radius: 4px;
@@ -56,11 +75,15 @@ th {
 }
 
 .today {
-  background-color: rgba(92,189,185,0.8);
-  color: #fff;
+  border: 2px solid rgba(92,189,185,0.7);
 }
 
-.today:hover .newEventBtn {
+.date {
+  color: rgba(92,189,185,0.9);
+  font-size: 18px;
+}
+
+td:hover .newEventBtn {
   color: #ffffff;
 }
 
@@ -96,13 +119,29 @@ td:hover .newEventBtn {
   display: inline-block;
 }
 
-.round {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: #ec5e5e;
+td:hover .eventTitle {
+  background-color: #ffffff;
+  color: #909090;
 }
+
+td:hover .date {
+  color: #ffffff;
+}
+
+.eventTitle {
+  padding: 3px;
+  background-color: rgba(92,189,185,0.9);
+  color: #ffffff;
+  word-wrap: break-word;
+  margin-bottom: 3px;
+  display: block;
+  font-size: 10px;
+  border-radius: 3px;
+}
+
+
+
+
 
 
 

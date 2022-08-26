@@ -1,7 +1,7 @@
 import {
   EDIT_EVENT,
   GET_ITEMS_FROM_LOCALSTORAGE,
-  GET_SELECTED_DATE,
+  GET_SELECTED_DATE, HIDE_EVENTS_LIST,
   ON_EDIT_EVENT_ID,
   SHOW_MODAL
 } from "../actions/calendarActions";
@@ -12,6 +12,7 @@ const initialState = {
   stateEvents: [],
   isEdit: false,
   editEventId: null,
+  isHideEventsList: false,
 };
 
 const calendarReducer = (state = initialState, action) => {
@@ -26,6 +27,8 @@ const calendarReducer = (state = initialState, action) => {
       return {...state, isEdit: action.payload};
     case ON_EDIT_EVENT_ID:
       return {...state, editEventId: action.payload};
+    case HIDE_EVENTS_LIST:
+      return {...state, isHideEventsList: action.payload};
     default:
       return state;
   }

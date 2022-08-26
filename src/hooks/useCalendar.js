@@ -88,7 +88,7 @@ const useCalendar = (daysShort = daysShortArr, monthNames = monthNamesArr) => {
     getPrevMonth,
     getNextMonth,
     getCurrentDay
-  }
-}
+  };
+};
 
 export default useCalendar;

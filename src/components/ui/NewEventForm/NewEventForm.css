@@ -14,14 +14,6 @@
   font-family: 'Roboto', sans-serif;
 }
 
-.input {
-
-}
-
-.textarea {
-
-}
-
 .textarea {
   resize: none;
 }
@@ -34,8 +26,35 @@
   border: transparent;
 }
 
-.btnsBox {
+.btnBox {
   margin-top: 20px;
   text-align: right;
+}
+
+.btnClose {
+  text-align: right;
+}
+
+.close {
+  font-size: 20px;
+  background-color: transparent;
+  border: transparent;
+  color: inherit;
+}
+
+.submitBtn {
+  background-color: rgba(92,189,185,0.9);
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 2px;
+}
+
+.submitBtn:disabled {
+  background-color: #A9A9A9;
+  pointer-events: none;
 }
 

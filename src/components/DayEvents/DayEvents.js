@@ -7,6 +7,7 @@ const DayEvents = () => {
   const dispatch = useDispatch();
   const dateInState = useSelector(state => state.date);
   const stateEvents = useSelector(state => state.stateEvents);
+  const isHideEventsList = useSelector(state => state.isHideEventsList);
 
   const [selectedDayEvents, setSelectedDaysEvents] = useState(null);
   const eventsFromLocalStorage = JSON.parse(localStorage.getItem('events'));
@@ -31,7 +32,7 @@ const DayEvents = () => {
   const removeEvent = (date, id) => {
     let isObjectRemovedFromLocalStorage = false;
 
-    const arrayWithoutRemovedEvent = eventsFromLocalStorage.map((item, index) => {
+    const arrayWithoutRemovedEvent = eventsFromLocalStorage.map((item) => {
       if (item.date === date) {
         if (item.dayEvents.length === 1) {
           isObjectRemovedFromLocalStorage = true;
@@ -58,29 +59,41 @@ const DayEvents = () => {
 
   return (
     <div className="eventsBox">
-      <h4>{dateInState} :</h4>
-      {selectedDayEvents ?
-        <ul className="list">
-          {selectedDayEvents.dayEvents.map(item => (
-            <li key={item.id}>
-              <span>{item.title}: <span>{item.text}</span></span>
-              <button
-                type="button"
-                onClick={() => openEditForm(selectedDayEvents.date, item.id)}
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                onClick={() => removeEvent(selectedDayEvents.date, item.id)}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-        :
-        <p>No events</p>
+      {
+        !isHideEventsList ?
+          <>
+            <h4>{dateInState} :</h4>
+            {selectedDayEvents ?
+              <div>
+                {selectedDayEvents.dayEvents.map(item => (
+                  <div key={item.id} className="eventContent">
+                    <div>
+                      <p className="titleEvent">{item.title}</p>
+                      <p className="text">{item.text}</p>
+                    </div>
+                    <div className="btnsArea">
+                      <button
+                        type="button"
+                        className="dayBtn edit"
+                        onClick={() => openEditForm(selectedDayEvents.date, item.id)}
+                      >
+                        <i className="bi bi-pencil-fill"/>
+                      </button>
+                      <button
+                        type="button"
+                        className="dayBtn remove"
+                        onClick={() => removeEvent(selectedDayEvents.date, item.id)}
+                      >
+                        <i className="bi bi-trash-fill"/>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div> :
+              <p>No events</p>
+            }
+          </> :
+          <h4>Click on date to see events</h4>
       }
     </div>
   );

@@ -6,23 +6,21 @@ import './NewEventForm.css';
 
 const NewEventForm = () => {
   const dispatch = useDispatch();
+  const selectedDateByUser = useSelector(state => state.date);
+  const isEdit = useSelector(state => state.isEdit);
+  const editEventId = useSelector(state => state.editEventId);
+  const stateEvents = useSelector(state => state.stateEvents);
 
   const [newEvent, setNewEvent] = useState({
     title: '',
     text: '',
   });
 
-  const selectedDateByUser = useSelector(state => state.date);
-  const isEdit = useSelector(state => state.isEdit);
-  const editEventId = useSelector(state => state.editEventId);
-  const stateEvents = useSelector(state => state.stateEvents);
-
   const eventsFromLocalStorage = JSON.parse(localStorage.getItem('events'));
 
   useEffect(() => {
     if (isEdit) {
       const editDay = eventsFromLocalStorage.find(day => day.date === selectedDateByUser);
-      console.log(editDay)
 
       if (editDay) {
         const editEvent = editDay.dayEvents.find(event => event.id === editEventId);
@@ -33,7 +31,6 @@ const NewEventForm = () => {
       }
     }
   }, [isEdit, editEventId, stateEvents]);
-
 
   const onChangeHandler = (e) => {
     const {name, value} = e.target;
@@ -96,7 +93,6 @@ const NewEventForm = () => {
         localStorage.setItem("events", JSON.stringify(arrayWithEditEvent));
         dispatch(getItemsFromLocalStorage(arrayWithEditEvent));
       }
-
     }
 
     dispatch(showModal(false));
@@ -111,20 +107,26 @@ const NewEventForm = () => {
 
 
   return (
-    <div className="formBox">
-      <form onSubmit={onSubmitHandler}>
-        <h2 className="title">{selectedDateByUser}</h2>
-        <div className="box">
-          <input
-            type="text"
-            name="title"
-            value={newEvent.title}
-            onChange={onChangeHandler}
-            placeholder="Add some title"
-            className="input"
-          />
-        </div>
-        <div>
+    <>
+      <div className="btnClose">
+        <button type="button" onClick={() => closeForm()} className="close">
+          <i className="bi bi-x-square"/>
+        </button>
+      </div>
+      <div className="formBox">
+        <form onSubmit={onSubmitHandler}>
+          <h2 className="title">{selectedDateByUser}</h2>
+          <div className="box">
+            <input
+              type="text"
+              name="title"
+              value={newEvent.title}
+              onChange={onChangeHandler}
+              placeholder="Add some title"
+              className="input"
+            />
+          </div>
+          <div>
           <textarea
             name="text"
             value={newEvent.text}
@@ -134,15 +136,19 @@ const NewEventForm = () => {
             placeholder="Your event description here"
             className="textarea"
           />
-        </div>
-        <div className="btnsBox">
-          <button type="submit" disabled={newEvent.title === '' || newEvent.text === ''}>
-            {isEdit? <span>Edit</span> : <span>Add</span>}
-          </button>
-          <button type="button" onClick={() => closeForm()}>Close</button>
-        </div>
-      </form>
-    </div>
+          </div>
+          <div className="btnBox">
+            <button
+              type="submit"
+              className="submitBtn"
+              disabled={newEvent.title === '' || newEvent.text === ''}
+            >
+              {isEdit ? <span>Edit</span> : <span>Add</span>}
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 
