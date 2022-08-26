@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getItemsFromLocalStorage, showModal} from "../../../store/actions/calendarActions";
+import {editEvent, getItemsFromLocalStorage, showModal} from "../../../store/actions/calendarActions";
 import {nanoid} from "nanoid";
 import './NewEventForm.css';
 
@@ -101,6 +101,7 @@ const NewEventForm = () => {
 
     dispatch(showModal(false));
     setNewEvent({title: '', text: ''});
+    dispatch(editEvent(false));
   };
 
   const closeForm = () => {
@@ -135,7 +136,7 @@ const NewEventForm = () => {
           />
         </div>
         <div className="btnsBox">
-          <button type="submit">
+          <button type="submit" disabled={newEvent.title === '' || newEvent.text === ''}>
             {isEdit? <span>Edit</span> : <span>Add</span>}
           </button>
           <button type="button" onClick={() => closeForm()}>Close</button>

@@ -12,7 +12,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
-  color: #1e1d1d;
+  color: #808080;
+  background-color: rgba(251,227,232,0.4);
 }
 
 code {
@@ -24,6 +25,13 @@ code {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 15px;
+}
+
+button:hover {
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+  cursor: pointer;
 }
 
 

@@ -58,9 +58,9 @@ const DayEvents = () => {
 
   return (
     <div className="eventsBox">
-      <h4>{dateInState} events:</h4>
+      <h4>{dateInState} :</h4>
       {selectedDayEvents ?
-        <ul>
+        <ul className="list">
           {selectedDayEvents.dayEvents.map(item => (
             <li key={item.id}>
               <span>{item.title}: <span>{item.text}</span></span>

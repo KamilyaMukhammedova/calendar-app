@@ -27,21 +27,21 @@ const useCalendar = (daysShort = daysShortArr, monthNames = monthNamesArr) => {
   const cols = 7;
   const calendarRows = {};
 
-  for(let i = 1; i < rows + 1; i++) {
-    for(let j = 1; j < cols + 1; j++) {
-      if(!calendarRows[i]) {
+  for (let i = 1; i < rows + 1; i++) {
+    for (let j = 1; j < cols + 1; j++) {
+      if (!calendarRows[i]) {
         calendarRows[i] = [];
       }
 
-      if(i === 1) {
-        if(j < startingPoint) {
+      if (i === 1) {
+        if (j < startingPoint) {
           calendarRows[i] = [...calendarRows[i], {
             classes: 'in-prev-month',
             date: `${prevMonthStartingPoint}-${selectedDate.getMonth() === 0 ? 12 : selectedDate.getMonth()}-${selectedDate.getMonth() === 0 ? selectedDate.getFullYear() - 1 : selectedDate.getFullYear()}`,
             value: prevMonthStartingPoint
           }];
           prevMonthStartingPoint++;
-        }else {
+        } else {
           calendarRows[i] = [...calendarRows[i], {
             classes: '',
             date: `${currentMonthCounter}-${selectedDate.getMonth() + 1}-${selectedDate.getFullYear()}`,
@@ -49,14 +49,14 @@ const useCalendar = (daysShort = daysShortArr, monthNames = monthNamesArr) => {
           }];
           currentMonthCounter++;
         }
-      }else if( i > 1 && currentMonthCounter < daysInMonth + 1 ) {
+      } else if( i > 1 && currentMonthCounter < daysInMonth + 1 ) {
         calendarRows[i] = [...calendarRows[i], {
           classes: '',
           date: `${currentMonthCounter}-${selectedDate.getMonth() + 1}-${selectedDate.getFullYear()}`,
           value: currentMonthCounter
         }];
         currentMonthCounter++;
-      }else {
+      } else {
         calendarRows[i] = [...calendarRows[i], {
           classes: 'in-next-month',
           date: `${nextMonthCounter}-${selectedDate.getMonth() + 2 === 13 ? 1 : selectedDate.getMonth() + 2}-${selectedDate.getMonth() + 2 === 13 ? selectedDate.getFullYear() + 1 : selectedDate.getFullYear()}`,
@@ -69,11 +69,15 @@ const useCalendar = (daysShort = daysShortArr, monthNames = monthNamesArr) => {
 
   const getPrevMonth = () => {
     setSelectedDate(prevValue => new Date(prevValue.getFullYear(), prevValue.getMonth() - 1, 1));
-  }
+  };
 
   const getNextMonth = () => {
     setSelectedDate(prevValue => new Date(prevValue.getFullYear(), prevValue.getMonth() + 1, 1));
-  }
+  };
+
+  const getCurrentDay = () => {
+    setSelectedDate(today);
+  };
 
   return {
     daysShort,
@@ -82,7 +86,8 @@ const useCalendar = (daysShort = daysShortArr, monthNames = monthNamesArr) => {
     calendarRows,
     selectedDate,
     getPrevMonth,
-    getNextMonth
+    getNextMonth,
+    getCurrentDay
   }
 }
 

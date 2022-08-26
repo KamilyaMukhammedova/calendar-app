@@ -10,8 +10,10 @@ const App = () => (
       </div>
     </header>
     <div className="container">
-      <Calendar/>
-      <DayEvents/>
+      <div className="flexBox">
+        <Calendar/>
+        <DayEvents/>
+      </div>
     </div>
   </>
 );
