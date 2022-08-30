@@ -43,11 +43,13 @@ const Calendar = () => {
   };
 
   const showEventsTitles = (date) => {
-    const day = stateEvents.find(day => day.date === date);
-    if (day) {
-      return day.dayEvents.map(event => (
-        <span key={event.id} className="eventTitle">{event.title}</span>
-      ));
+    if(stateEvents) {
+      const day = stateEvents.find(day => day.date === date);
+      if (day) {
+        return day.dayEvents.map(event => (
+          <span key={event.id} className="eventTitle">{event.title}</span>
+        ));
+      }
     }
   };
 
